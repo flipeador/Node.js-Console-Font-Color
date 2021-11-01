@@ -12,7 +12,7 @@ class Console
     static reverse    = '\x1b[7;29m';
     static hidden     = '\x1b[8;29m';
 
-    // Color:        [        FG,         BG,  BRIGHT_FB,   BRIGHT_BG]
+    // Color:        [        FG,         BG,  BRIGHT_FG,   BRIGHT_BG]
     static black   = ['\x1b[30m', '\x1b[40m', '\x1b[90m', '\x1b[100m'];
     static red     = ['\x1b[31m', '\x1b[41m', '\x1b[91m', '\x1b[101m'];
     static green   = ['\x1b[32m', '\x1b[42m', '\x1b[92m', '\x1b[102m'];
