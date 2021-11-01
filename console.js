@@ -74,7 +74,7 @@ class Console
         return this.print('%s%s%s', this.red[0], util.format(...args), this.reset);
     }
 
-    static task(...args)
+    static event(...args)
     {
         return this.print('%s%s%s', this.blue[0], util.format(...args), this.reset);
     }
@@ -83,6 +83,8 @@ class Console
     {
         return this.print('%s%s%s', this.green[0], util.format(...args), this.reset);
     }
+    
+    static debug = this.log;
 }
 
 module.exports = {
