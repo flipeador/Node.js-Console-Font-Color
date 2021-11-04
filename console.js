@@ -40,6 +40,18 @@ class Console
         return result;
     }
 
+    static async read(s='')
+    {
+        const readln = require('readline');
+        const cl = readln.createInterface(process.stdin, process.stdout);
+        return new Promise((resolve, reject) => {
+            cl.question(s, answer => {
+                cl.close();
+                resolve(answer);
+            });
+        });
+    }
+    
     static write(...args)
     {
         process.stdout.write(util.format(...args));
