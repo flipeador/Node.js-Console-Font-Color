@@ -1,5 +1,6 @@
 const util = require('util');
 
+// https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
 class Console
 {
     // Style:
@@ -12,7 +13,7 @@ class Console
     static reverse    = '\x1b[7;29m';
     static hidden     = '\x1b[8;29m';
 
-    // Color:        [        FG,         BG,  BRIGHT_FG,   BRIGHT_BG]
+    // Color:        [        FG,         BG,  BRIGHT_FB,   BRIGHT_BG]
     static black   = ['\x1b[30m', '\x1b[40m', '\x1b[90m', '\x1b[100m'];
     static red     = ['\x1b[31m', '\x1b[41m', '\x1b[91m', '\x1b[101m'];
     static green   = ['\x1b[32m', '\x1b[42m', '\x1b[92m', '\x1b[102m'];
@@ -28,41 +29,31 @@ class Console
             { dateStyle: 'short', timeStyle: 'medium' });
     }
 
-    /**
-     * @param {input.BasicOptions} options
-     */
-    static input(query, options)
-    {
-        const input = require('readline-sync');
-        this.write('%s%s%s', this.cyan[0], query, this.magenta[0]);
-        const result = input.question('', options);
-        this.write(this.reset);
-        return result;
-    }
-
-    static async read(s='')
-    {
-        const readln = require('readline');
-        const cl = readln.createInterface(process.stdin, process.stdout);
-        return new Promise((resolve, reject) => {
-            cl.question(s, answer => {
-                cl.close();
-                resolve(answer);
-            });
-        });
-    }
-    
     static write(...args)
     {
         process.stdout.write(util.format(...args));
         return this;
     }
 
+    static async input(query)
+    {
+        const cl = require('readline')
+            .createInterface(process.stdin, process.stdout);
+        query = util.format('%s%s%s', this.cyan[0], query, this.reset);
+        return new Promise((resolve, reject) => {
+            cl.question(query, answer => {
+                cl.close();
+                resolve(answer);
+            });
+        });
+    }
+
     static print(...args)
     {
-        if (args.length)
+        if (args.length) {
             args[0] = `[${this.date()}] ${args[0]}`;
-        console.log(...args);
+            this.write(this.reset);
+        } console.log(...args);
         return this;
     }
 
@@ -95,7 +86,7 @@ class Console
     {
         return this.print('%s%s%s', this.green[0], util.format(...args), this.reset);
     }
-    
+
     static debug = this.log;
 }
 
